@@ -43,3 +43,15 @@ toInterval h m s = Interval h m s
 
 diffTime :: [Int] -> [Int] -> String
 diffTime [h1, m1, s1] [h2, m2, s2] = showTimeDiff (diffInterval (toInterval h1 m1 s1) (toInterval h2 m2 s2))
+
+convert12Hour :: String -> [Int]
+convert12Hour string =
+    let time = splitColon (concat(take 1 (split "pm" string)))
+     in [12 + read (head time) :: Int, read (concat (tail time)) :: Int]
+
+to24Hour :: String -> String
+to24Hour string
+  | isSubsequenceOf "am" string = concat (take 1 (split "am" string))
+  | isSubsequenceOf "pm" string = intercalate ":" (map show (convert12Hour string))
+  | otherwise = string -- Assume its already in 24 hour format
+
