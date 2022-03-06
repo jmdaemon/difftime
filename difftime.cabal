@@ -24,7 +24,7 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      DiffTimeLib
   other-modules:
       Paths_difftime
   hs-source-dirs:

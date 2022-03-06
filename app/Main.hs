@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import DiffTimeLib
 
 main :: IO ()
 main = someFunc
