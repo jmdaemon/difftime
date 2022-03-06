@@ -55,3 +55,5 @@ to24Hour string
   | isSubsequenceOf "pm" string = intercalate ":" (map show (convert12Hour string))
   | otherwise = string -- Assume its already in 24 hour format
 
+toTimeList :: String -> [Int]
+toTimeList string = map (read :: String->Int) (splitColon string)
