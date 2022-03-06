@@ -31,6 +31,7 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , regex-tdfa >=1.3.1 && <1.4
   default-language: Haskell2010
 
 executable difftime-exe
@@ -43,6 +44,7 @@ executable difftime-exe
   build-depends:
       base >=4.7 && <5
     , difftime
+    , regex-tdfa >=1.3.1 && <1.4
   default-language: Haskell2010
 
 test-suite difftime-test
@@ -56,4 +58,5 @@ test-suite difftime-test
   build-depends:
       base >=4.7 && <5
     , difftime
+    , regex-tdfa >=1.3.1 && <1.4
   default-language: Haskell2010
