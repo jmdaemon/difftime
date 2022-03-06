@@ -41,8 +41,12 @@ showTimeDiff [h,m,s] = printf "%d hours %d mins %d secs" h m s
 toInterval :: Int -> Int -> Int -> Interval
 toInterval h m s = Interval h m s
 
-diffTime :: [Int] -> [Int] -> String
-diffTime [h1, m1, s1] [h2, m2, s2] = showTimeDiff (diffInterval (toInterval h1 m1 s1) (toInterval h2 m2 s2))
+diffTime :: String -> String -> String
+diffTime t1 t2 =
+    let [h1,m1,s1] = toTimeList t1
+        [h2,m2,s2] = toTimeList t2
+    in showTimeDiff (diffInterval (toInterval h1 m1 s1) (toInterval h2 m2 s2))
+
 
 convert12Hour :: String -> [Int]
 convert12Hour string =
