@@ -34,3 +34,13 @@ diff final initial = final - initial
 
 diffInterval :: Interval -> Interval -> [Int]
 diffInterval (Interval h_f m_f s_f) (Interval h_i m_i s_i) = [diff h_f h_i, diff m_f m_i, diff s_f s_i]
+
+sumTimeDiff :: [Int] -> [Int] -> [Int]
+sumTimeDiff [h1,m1,s1] [h2,m2,s2] = [h1 + h2, m1 + m2, s1 + s2]
+
+showTimeDiff :: [Int] -> String
+showTimeDiff [h,m,s] = printf "%d hours %d mins %d secs" h m s
+
+toInterval :: Int -> Int -> Int -> Interval
+toInterval h m s = Interval h m s
+
