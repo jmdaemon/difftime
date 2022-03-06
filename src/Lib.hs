@@ -26,3 +26,11 @@ splitHypen string = split "-"
 
 splitAM string = split "am"
 splitPM string = split "pm"
+
+data Interval = Interval Int Int Int
+
+diff :: Int -> Int -> Int
+diff final initial = final - initial
+
+diffInterval :: Interval -> Interval -> [Int]
+diffInterval (Interval h_f m_f s_f) (Interval h_i m_i s_i) = [diff h_f h_i, diff m_f m_i, diff s_f s_i]
