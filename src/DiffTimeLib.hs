@@ -1,14 +1,9 @@
 module DiffTimeLib
-    (
-    someFunc,
-    diffTime
+    (diffTime
     ) where
 
 import Text.Printf
 import Data.List
-
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
 
 split :: String -> String -> [String]
 split _ "" = []
