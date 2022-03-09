@@ -29,7 +29,7 @@ splitHypen string = split "-" string
 data Interval = Interval Int Int Int
 
 diff :: Int -> Int -> Int
-diff final initial = final - initial
+diff final initial = abs(final - initial)
 
 diffInterval :: Interval -> Interval -> [Int]
 diffInterval (Interval h_f m_f s_f) (Interval h_i m_i s_i) = [diff h_f h_i, diff m_f m_i, diff s_f s_i]
