@@ -40,22 +40,33 @@ toInterval h m s = Interval h m s
 
 diffTime :: String -> String -> String
 diffTime t1 t2 =
-    let [h1,m1,s1] = toTimeList t1
-        [h2,m2,s2] = toTimeList t2
-    --in showTimeDiff (diffInterval (toInterval h1 m1 s1) (toInterval h2 m2 s2))
-    in showTimeDiff (diffInterval (toInterval h2 m2 s2) (toInterval h1 m1 s1))
+    let [h1,m1] = toTimeList t1
+        [h2,m2] = toTimeList t2
+    in showTimeDiff (diffInterval (toInterval h2 m2 0) (toInterval h1 m1 0))
+
+    --let [h1,m1,s1] = toTimeList t1
+        --[h2,m2,s2] = toTimeList t2
+    --in showTimeDiff (diffInterval (toInterval h2 m2 s2) (toInterval h1 m1 s1))
 
 
 convert12Hour :: String -> [Int]
 convert12Hour string =
-    let time = splitColon (concat(take 1 (split "pm" string)))
-     in [12 + read (head time) :: Int, read (concat (tail time)) :: Int]
+    --let time = splitColon (concat (take 1 (split "pm" string)))
+     --in [12 + read (head time) :: Int, read (concat (tail time)) :: Int]
+    let [h, m, s] = splitColon (concat (take 1 (split "pm" string)))
+     in [12 + read h :: Int, read m :: Int, read s :: Int]
 
 to24Hour :: String -> String
 to24Hour string
   | isSubsequenceOf "am" string = concat (take 1 (split "am" string))
   | isSubsequenceOf "pm" string = intercalate ":" (map show (convert12Hour string))
+  -- isSubsequenceOf "pm" string = 
+      --let convertedString = intercalate ":" (map show (convert12Hour string))
+      --in "0" ++ convertedString
+       --in convertedString ++ "0"
   | otherwise = string -- Assume its already in 24 hour format
 
 toTimeList :: String -> [Int]
 toTimeList string = map (read :: String->Int) (splitColon string)
+
+
