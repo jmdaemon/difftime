@@ -1,5 +1,6 @@
 module DiffTimeLib
-    (diffTimeHourMin
+    (
+    diffTimeHourMin
     ) where
 
 import Text.Printf
@@ -24,7 +25,10 @@ splitColon string = split ":" string
 splitHypen string = split "-" string
 
 -- | Data Types
-data Time = Time Int Int Int
+data Time = Time { hours :: Int
+                 , minutes :: Int
+                 , seconds :: Int
+                 }
 
 -- | Data Type Functions
 
