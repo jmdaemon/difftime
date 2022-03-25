@@ -76,18 +76,30 @@ padTime time pad =
     else -- Assume our time is in minutes and seconds
         let [m,s] = stoiList time
          in Time 0 m s
-         
---stringToTime :: String -> Time 
---stringToTime string = 
-    --let [h,m,s] = stoiList string
-     --in Time h m s
 
 -- | Converts a time from 12 Hours to 24 Hours
 -- | E.g from12To24Hour "1:30pm" -> "13:30"
-from12To24Hour :: String -> String -> Time
-from12To24Hour string pad =
+from12To24Hour :: String -> Time
+from12To24Hour string =
     let [h,m,s] = sltoil(splitColon (removeSuffix "pm" string))
      in Time h m s
+         
+{-  Converts a time string to Time
+    Note that this function also implicitly converts the
+    time from 12 hour to 24 hours for easier parsing.
+    E.g
+        stotime "10:30pm" -> Time { 10 30 00 }
+        stotime "1:30pm" -> Time { 13 30 00 }
+-}
+stotime :: String -> Time
+stotime string
+  | isSubsequenceOf "am" string =
+      let [h,m,s] = stoiList (removeSuffix "am" string)
+       in Time h m s
+  | isSubsequenceOf "pm" string = from12To24Hour string
+  | otherwise = -- Assume its already in 24 hour format
+      let [h,m,s] = stoiList string
+       in Time h m s
 
 -- | Interval Data Functions | --
 
@@ -105,18 +117,3 @@ diffTimeHourMin t1 t2 =
     --let [h1,m1,s1] = mkTimeList t1
         --[h2,m2,s2] = mkTimeList t2
     --in showTime (diffInterval (mkTime h2 m2 s2) (mkTime h1 m1 s1))
-
--- Pad adds zeros to the time
-
-
-
-
-to24Hour :: String -> String
-to24Hour string
-  | isSubsequenceOf "am" string = concat (take 1 (split "am" string))
-  | isSubsequenceOf "pm" string = intercalate ":" (map show (convert12Hour string))
-  -- isSubsequenceOf "pm" string = 
-      --let convertedString = intercalate ":" (map show (convert12Hour string))
-      --in "0" ++ convertedString
-       --in convertedString ++ "0"
-  | otherwise = string -- Assume its already in 24 hour format
