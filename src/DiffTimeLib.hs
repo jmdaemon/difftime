@@ -52,8 +52,18 @@ sumTime (Time h1 m1 s1) (Time h2 m2 s2) = Time (h1 + h2)  (m1 + m2)  (s1 + s2)
 showTime :: Time -> String
 showTime (Time h m s) = printf "%d hours %d mins %d secs" h m s
 
-mkTime :: Int -> Int -> Int -> Time
-mkTime h m s = Time h m s
+-- | Appends or prepends zeroes to some time
+padTime :: String -> String -> Time
+padTime time pad = 
+    -- Creates HH:MM:00
+    if pad == "hm"
+       then
+       let [h,m] = map (read :: String->Int) (splitColon time)
+        in Time h m 0
+    -- Creates 00:MM:SS
+    else -- Assume our time is in minutes and seconds
+        let [m,s] = map (read :: String->Int) (splitColon time)
+         in Time 0 m s
 
 -- | Interval Data Functions | --
 
@@ -73,17 +83,7 @@ diffTimeHourMin t1 t2 =
     --in showTime (diffInterval (mkTime h2 m2 s2) (mkTime h1 m1 s1))
 
 -- Pad adds zeros to the time
-padTime :: String -> String -> [Int]
-padTime time pad = 
-    -- Creates HH:MM:00
-    if pad == "hm"
-       then
-       let hm = mkTimeList time
-        in hm ++ [0]
-    -- Creates 00:MM:SS
-    else
-        let ms = mkTimeList time
-         in 0:ms
+
 
 convert12Hour :: String -> [Int]
 convert12Hour string =
