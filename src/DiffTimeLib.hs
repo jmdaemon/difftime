@@ -29,9 +29,13 @@ splitHypen string = split "-" string
 diff :: Int -> Int -> Int
 diff final initial = abs(final - initial)
 
+-- | Converts a list of strings into a list of integers
+sltoil :: [String] -> [Int]
+sltoil stringList = map (read :: String->Int) stringList
+
 -- | Converts a string into a list of integers
 stoiList :: String -> [Int]
-stoiList string = map (read :: String->Int) (splitColon string)
+stoiList string = sltoil (splitColon string)
 
 -- | Removes a given suffix from a string
 removeSuffix :: String -> String -> String
