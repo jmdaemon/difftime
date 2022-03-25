@@ -24,7 +24,7 @@ splitColon string = split ":" string
 splitHypen string = split "-" string
 
 -- | Data Types
-data Interval = Interval Int Int Int
+data Time = Time Int Int Int
 
 -- | Data Type Functions
 
@@ -33,8 +33,8 @@ diff :: Int -> Int -> Int
 diff final initial = abs(final - initial)
 
 -- | Calculate the difference between two times
-diffInterval :: Interval -> Interval -> [Int]
-diffInterval (Interval h_f m_f s_f) (Interval h_i m_i s_i) = [diff h_f h_i, diff m_f m_i, diff s_f s_i]
+diffTime :: Time -> Time -> [Int]
+diffTime (Time h_f m_f s_f) (Time h_i m_i s_i) = [diff h_f h_i, diff m_f m_i, diff s_f s_i]
 
 -- | Sum two times together
 sumTimeDiff :: [Int] -> [Int] -> [Int]
@@ -44,19 +44,19 @@ sumTimeDiff [h1,m1,s1] [h2,m2,s2] = [h1 + h2, m1 + m2, s1 + s2]
 showTimeDiff :: [Int] -> String
 showTimeDiff [h,m,s] = printf "%d hours %d mins %d secs" h m s
 
-toInterval :: Int -> Int -> Int -> Interval
-toInterval h m s = Interval h m s
+toTime :: Int -> Int -> Int -> Time
+toTime h m s = Time h m s
 
 -- | Calculates the difference between two times and show their difference
 diffTimeHourMin :: String -> String -> String
 diffTimeHourMin t1 t2 =
     let [h1,m1] = toTimeList t1
         [h2,m2] = toTimeList t2
-    in showTimeDiff (diffInterval (toInterval h2 m2 0) (toInterval h1 m1 0))
+    in showTimeDiff (diffTime (toTime h2 m2 0) (toTime h1 m1 0))
 
     --let [h1,m1,s1] = toTimeList t1
         --[h2,m2,s2] = toTimeList t2
-    --in showTimeDiff (diffInterval (toInterval h2 m2 s2) (toInterval h1 m1 s1))
+    --in showTimeDiff (diffTime (toTime h2 m2 s2) (toTime h1 m1 s1))
 
 -- Pad adds zeros to the time
 padTime :: String -> String -> [Int]
