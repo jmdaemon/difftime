@@ -49,43 +49,17 @@ diffTimeHourMin t1 t2 =
     --in showTimeDiff (diffInterval (toInterval h2 m2 s2) (toInterval h1 m1 s1))
 
 -- Pad adds zeros to the time
---padTime :: String -> String -> String
---padTime :: String -> String -> [Int]
 padTime :: String -> String -> [Int]
 padTime time pad = 
     -- Creates HH:MM:00
-    --if pad == "hh:mm"
     if pad == "hm"
        then
        let hm = toTimeList time
         in hm ++ [0]
-       --in (read 0 :: Int) ++ hm
-    --else if pad == "mm:ss"
+    -- Creates 00:MM:SS
     else
         let ms = toTimeList time
          in 0:ms
-
---padTime time pad = 
-    ---- Creates HH:MM:00
-    --if pad == "Hours Minutes" then
-                              ----let [h1, m1] = 0 ++ toTimeList time
-                              --let [h1, m1] = toTimeList time
-                               --in 0 ++ toTimeList time
-    --if pad == "Minutes Seconds" then
-                                --let [h1, m1] = toTimeList time
-                                 --in 0:[ h1, m1 ]
-                                --0:[ toTimeList time ]
-                              --let [h1, m1, 
-    -- Creates 00:MM:SS
-
--- Detect whether a string has hours, mins or mins and seconds
-
---padTime :: String -> String -> String
---padTime :: String -> String
---padTime time = time
---padTime time = 
-    --let [h1, m1, _] = toTimeList time
-     --in if 
 
 convert12Hour :: String -> [Int]
 convert12Hour string =
@@ -106,5 +80,3 @@ to24Hour string
 
 toTimeList :: String -> [Int]
 toTimeList string = map (read :: String->Int) (splitColon string)
-
-
