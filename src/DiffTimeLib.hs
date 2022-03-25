@@ -5,6 +5,8 @@ module DiffTimeLib
 import Text.Printf
 import Data.List
 
+-- | Splits a string into a list using any delimeter
+-- | Example: split "-" string
 split :: String -> String -> [String]
 split _ "" = []
 split delim str =
@@ -21,23 +23,31 @@ split delim str =
 splitColon string = split ":" string
 splitHypen string = split "-" string
 
+-- | Data Types
 data Interval = Interval Int Int Int
 
+-- | Data Type Functions
+
+-- | Calculate the difference between two integers
 diff :: Int -> Int -> Int
 diff final initial = abs(final - initial)
 
+-- | Calculate the difference between two times
 diffInterval :: Interval -> Interval -> [Int]
 diffInterval (Interval h_f m_f s_f) (Interval h_i m_i s_i) = [diff h_f h_i, diff m_f m_i, diff s_f s_i]
 
+-- | Sum two times together
 sumTimeDiff :: [Int] -> [Int] -> [Int]
 sumTimeDiff [h1,m1,s1] [h2,m2,s2] = [h1 + h2, m1 + m2, s1 + s2]
 
+-- | Format the time into a human readable string
 showTimeDiff :: [Int] -> String
 showTimeDiff [h,m,s] = printf "%d hours %d mins %d secs" h m s
 
 toInterval :: Int -> Int -> Int -> Interval
 toInterval h m s = Interval h m s
 
+-- | Calculates the difference between two times and show their difference
 diffTimeHourMin :: String -> String -> String
 diffTimeHourMin t1 t2 =
     let [h1,m1] = toTimeList t1
