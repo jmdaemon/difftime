@@ -52,6 +52,11 @@ showTime (Time h m s) = printf "%d hours %d mins %d secs" h m s
 mkTime :: Int -> Int -> Int -> Time
 mkTime h m s = Time h m s
 
+-- | Interval | --
+data Interval = Interval { t_i :: Time
+                         , t_f :: Time
+                         }
+
 -- | Calculates the difference between two times and show their difference
 diffTimeHourMin :: String -> String -> String
 diffTimeHourMin t1 t2 =
