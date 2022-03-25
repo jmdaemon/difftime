@@ -33,6 +33,10 @@ diff final initial = abs(final - initial)
 stoiList :: String -> [Int]
 stoiList string = map (read :: String->Int) (splitColon string)
 
+-- | Removes a given suffix from a string
+removeSuffix :: String -> String -> String
+removeSuffix delim string = concat (take 1 (split delim string))
+
 -- | Data Types
 
 -- | Time | --
@@ -69,6 +73,11 @@ padTime time pad =
         let [m,s] = stoiList time
          in Time 0 m s
 
+from12To24Hour :: String -> Time
+from12To24Hour string =
+    let [h, m, s] = splitColon (removeSuffix "pm" string)
+     in Time (12 + read h :: Int) (read m :: Int) (read s :: Int)
+
 -- | Interval Data Functions | --
 
 -- | Calculate the difference in time over a time interval
@@ -89,12 +98,7 @@ diffTimeHourMin t1 t2 =
 -- Pad adds zeros to the time
 
 
-convert12Hour :: String -> [Int]
-convert12Hour string =
-    --let time = splitColon (concat (take 1 (split "pm" string)))
-     --in [12 + read (head time) :: Int, read (concat (tail time)) :: Int]
-    let [h, m, s] = splitColon (concat (take 1 (split "pm" string)))
-     in [12 + read h :: Int, read m :: Int, read s :: Int]
+
 
 to24Hour :: String -> String
 to24Hour string
