@@ -76,11 +76,18 @@ padTime time pad =
     else -- Assume our time is in minutes and seconds
         let [m,s] = stoiList time
          in Time 0 m s
+         
+--stringToTime :: String -> Time 
+--stringToTime string = 
+    --let [h,m,s] = stoiList string
+     --in Time h m s
 
-from12To24Hour :: String -> Time
-from12To24Hour string =
-    let [h, m, s] = splitColon (removeSuffix "pm" string)
-     in Time (12 + read h :: Int) (read m :: Int) (read s :: Int)
+-- | Converts a time from 12 Hours to 24 Hours
+-- | E.g from12To24Hour "1:30pm" -> "13:30"
+from12To24Hour :: String -> String -> Time
+from12To24Hour string pad =
+    let [h,m,s] = sltoil(splitColon (removeSuffix "pm" string))
+     in Time h m s
 
 -- | Interval Data Functions | --
 
