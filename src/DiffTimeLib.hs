@@ -24,43 +24,44 @@ split delim str =
 splitColon string = split ":" string
 splitHypen string = split "-" string
 
--- | Data Types
-data Time = Time { hours :: Int
-                 , minutes :: Int
-                 , seconds :: Int
-                 }
-
--- | Data Type Functions
 
 -- | Calculate the difference between two integers
 diff :: Int -> Int -> Int
 diff final initial = abs(final - initial)
+
+-- | Data Types
+
+-- | Time | --
+data Time = Time { hours :: Int
+                 , minutes :: Int
+                 , seconds :: Int
+                 }
 
 -- | Calculate the difference between two times
 diffTime :: Time -> Time -> [Int]
 diffTime (Time h_f m_f s_f) (Time h_i m_i s_i) = [diff h_f h_i, diff m_f m_i, diff s_f s_i]
 
 -- | Sum two times together
-sumTimeDiff :: [Int] -> [Int] -> [Int]
-sumTimeDiff [h1,m1,s1] [h2,m2,s2] = [h1 + h2, m1 + m2, s1 + s2]
+sumTime :: Time -> Time -> Time
+sumTime (Time h1 m1 s1) (Time h2 m2 s2) = Time (h1 + h2)  (m1 + m2)  (s1 + s2)
 
 -- | Format the time into a human readable string
-showTimeDiff :: [Int] -> String
-showTimeDiff [h,m,s] = printf "%d hours %d mins %d secs" h m s
+showTime :: Time -> String
+showTime (Time h m s) = printf "%d hours %d mins %d secs" h m s
 
-toTime :: Int -> Int -> Int -> Time
-toTime h m s = Time h m s
+mkTime :: Int -> Int -> Int -> Time
+mkTime h m s = Time h m s
 
 -- | Calculates the difference between two times and show their difference
 diffTimeHourMin :: String -> String -> String
 diffTimeHourMin t1 t2 =
-    let [h1,m1] = toTimeList t1
-        [h2,m2] = toTimeList t2
-    in showTimeDiff (diffTime (toTime h2 m2 0) (toTime h1 m1 0))
+    let [h1,m1] = mkTimeList t1
+        [h2,m2] = mkTimeList t2
+    in showTime (diffTime (mkTime h2 m2 0) (mkTime h1 m1 0))
 
-    --let [h1,m1,s1] = toTimeList t1
-        --[h2,m2,s2] = toTimeList t2
-    --in showTimeDiff (diffTime (toTime h2 m2 s2) (toTime h1 m1 s1))
+    --let [h1,m1,s1] = mkTimeList t1
+        --[h2,m2,s2] = mkTimeList t2
+    --in showTime (diffTime (mkTime h2 m2 s2) (mkTime h1 m1 s1))
 
 -- Pad adds zeros to the time
 padTime :: String -> String -> [Int]
@@ -68,11 +69,11 @@ padTime time pad =
     -- Creates HH:MM:00
     if pad == "hm"
        then
-       let hm = toTimeList time
+       let hm = mkTimeList time
         in hm ++ [0]
     -- Creates 00:MM:SS
     else
-        let ms = toTimeList time
+        let ms = mkTimeList time
          in 0:ms
 
 convert12Hour :: String -> [Int]
@@ -92,5 +93,5 @@ to24Hour string
        --in convertedString ++ "0"
   | otherwise = string -- Assume its already in 24 hour format
 
-toTimeList :: String -> [Int]
-toTimeList string = map (read :: String->Int) (splitColon string)
+mkTimeList :: String -> [Int]
+mkTimeList string = map (read :: String->Int) (splitColon string)
