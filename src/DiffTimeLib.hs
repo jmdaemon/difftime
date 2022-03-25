@@ -29,6 +29,10 @@ splitHypen string = split "-" string
 diff :: Int -> Int -> Int
 diff final initial = abs(final - initial)
 
+-- | Converts a string into a list of integers
+stoiList :: String -> [Int]
+stoiList string = map (read :: String->Int) (splitColon string)
+
 -- | Data Types
 
 -- | Time | --
@@ -58,11 +62,11 @@ padTime time pad =
     -- Creates HH:MM:00
     if pad == "hm"
        then
-       let [h,m] = map (read :: String->Int) (splitColon time)
+       let [h,m] = stoiList time
         in Time h m 0
     -- Creates 00:MM:SS
     else -- Assume our time is in minutes and seconds
-        let [m,s] = map (read :: String->Int) (splitColon time)
+        let [m,s] = stoiList time
          in Time 0 m s
 
 -- | Interval Data Functions | --
@@ -101,6 +105,3 @@ to24Hour string
       --in "0" ++ convertedString
        --in convertedString ++ "0"
   | otherwise = string -- Assume its already in 24 hour format
-
-mkTimeList :: String -> [Int]
-mkTimeList string = map (read :: String->Int) (splitColon string)
