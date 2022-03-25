@@ -1,5 +1,5 @@
 module DiffTimeLib
-    (diffTime
+    (diffTimeHourMin
     ) where
 
 import Text.Printf
@@ -38,8 +38,8 @@ showTimeDiff [h,m,s] = printf "%d hours %d mins %d secs" h m s
 toInterval :: Int -> Int -> Int -> Interval
 toInterval h m s = Interval h m s
 
-diffTime :: String -> String -> String
-diffTime t1 t2 =
+diffTimeHourMin :: String -> String -> String
+diffTimeHourMin t1 t2 =
     let [h1,m1] = toTimeList t1
         [h2,m2] = toTimeList t2
     in showTimeDiff (diffInterval (toInterval h2 m2 0) (toInterval h1 m1 0))
