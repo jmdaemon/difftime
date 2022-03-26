@@ -1,6 +1,6 @@
 module DiffTimeLib
     (
-    diffTimeHourMin
+    diffTime
     ) where
 
 import Text.Printf
@@ -108,8 +108,8 @@ diffInterval :: Interval -> Time
 diffInterval (Interval t_f t_i) = Time (hours t_f - hours t_i) (minutes t_f - minutes t_i) (seconds t_f - seconds t_i)
 
 -- | Calculates the difference between two times and show their difference
-diffTimeHourMin :: String -> String -> String
-diffTimeHourMin t1 t2 =
+diffTime :: String -> String -> String
+diffTime t1 t2 =
     let [h1,m1] = mkTimeList t1
         [h2,m2] = mkTimeList t2
     in showTime (diffInterval (mkTime h2 m2 0) (mkTime h1 m1 0))
