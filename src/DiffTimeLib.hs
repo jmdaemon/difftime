@@ -5,25 +5,7 @@ module DiffTimeLib
 
 import Text.Printf
 import Data.List
-
--- | Splits a string into a list using any delimeter
--- | Example: split "-" string
-split :: String -> String -> [String]
-split _ "" = []
-split delim str =
-  split' "" str []
-  where
-    dl = length delim
-
-    split' :: String -> String -> [String] -> [String]
-    split' h t f
-      | dl > length t = f ++ [h ++ t]
-      | delim == take dl t = split' "" (drop dl t) (f ++ [h])
-      | otherwise = split' (h ++ take 1 t) (drop 1 t) f
-
-splitColon string = split ":" string
-splitHypen string = split "-" string
-
+import Data.List.Split
 
 -- | Calculate the difference between two integers
 diff :: (Num a) => a -> a -> a
@@ -35,11 +17,11 @@ sltoil stringList = map (read :: String->Int) stringList
 
 -- | Converts a string into a list of integers
 stoiList :: String -> [Int]
-stoiList string = sltoil (splitColon string)
+stoiList string = sltoil (splitOn ":" string)
 
 -- | Removes a given suffix from a string
 removeSuffix :: String -> String -> String
-removeSuffix delim string = concat (take 1 (split delim string))
+removeSuffix delim string = concat (take 1 (splitOn delim string))
 
 -- | Data Types
 
@@ -87,7 +69,7 @@ padTime time pad =
 -- | E.g from12To24Hour "1:30pm" -> "13:30"
 from12To24Hour :: String -> Time
 from12To24Hour string =
-    let [h,m,s] = sltoil(splitColon (removeSuffix "pm" string))
+    let [h,m,s] = sltoil(splitOn ":" (removeSuffix "pm" string))
      in Time h m s
          
 {-  Converts a time string to Time
@@ -113,12 +95,15 @@ stotime string
 diffInterval :: Interval -> Time
 diffInterval (Interval t_f t_i) = Time (hours t_f - hours t_i) (minutes t_f - minutes t_i) (seconds t_f - seconds t_i)
 
--- | Calculates the difference between two times and show their difference
 diffTime :: String -> String -> String
-diffTime t1 t2 =
-    let [h1,m1] = mkTimeList t1
-        [h2,m2] = mkTimeList t2
-    in showTime (diffInterval (mkTime h2 m2 0) (mkTime h1 m1 0))
+diffTime t1 t2 = "Stub"
+
+-- | Calculates the difference between two times and show their difference
+--diffTime :: String -> String -> String
+--diffTime t1 t2 =
+    --let [h1,m1] = mkTimeList t1
+        --[h2,m2] = mkTimeList t2
+    --in showTime (diffInterval (mkTime h2 m2 0) (mkTime h1 m1 0))
 
     --let [h1,m1,s1] = mkTimeList t1
         --[h2,m2,s2] = mkTimeList t2

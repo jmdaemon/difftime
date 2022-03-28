@@ -35,14 +35,5 @@ main = execParser opts >>= parse
      <> header "difftime - Calculate time differences of intervals" )
 
 toDiffTime :: String -> String -> String
---toDiffTime :: [String] -> String
---toDiffTime [s1, s2] = 
---toDiffTime s1 s2 = 
-    ----let t1 = head s1
-        ----t2 = concat (tail s2)
 toDiffTime s1 s2 = 
-    --let t1 = head s1
-        --t2 = concat (tail s2)
-        --diffTime s1 s2
-        diffTimeHourMin s1 s2
-
+        diffTime s1 s2
