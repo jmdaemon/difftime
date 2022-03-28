@@ -26,7 +26,7 @@ splitHypen string = split "-" string
 
 
 -- | Calculate the difference between two integers
-diff :: Int -> Int -> Int
+diff :: (Num a) => a -> a -> a
 diff final initial = abs(final - initial)
 
 -- | Converts a list of strings into a list of integers
