@@ -44,10 +44,16 @@ removeSuffix delim string = concat (take 1 (split delim string))
 -- | Data Types
 
 -- | Time | --
-data Time = Time { hours :: Int
-                 , minutes :: Int
-                 , seconds :: Int
-                 }
+data Time = Time
+    { hours :: Int
+    , minutes :: Int
+    , seconds :: Int
+    }
+
+data TwelveHour = TwelveHour
+    { time :: Time
+    , meridiem :: String
+    }
 
 -- | Interval | --
 data Interval = Interval { initial :: Time
