@@ -3,6 +3,7 @@ import re
 import argparse
 import logging
 
+# Regex constants
 meridiem_regex = r'([ap]m)'
 num_regex = r'([\d]+)'
 
