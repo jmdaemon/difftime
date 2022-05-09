@@ -6,6 +6,7 @@ from difftime.time import(
     seconds_to_time,
     time_to_seconds
 )
+from difftime import __version__
 
 # Standard Library
 import os
@@ -23,6 +24,8 @@ def main():
     parser.add_argument('interval_list', help='The list of intervals: E.g \'9:30pm-\'10:30pm,\'10:30pm-11:30pm\'')
     parser.add_argument('-s', default=False, required=False,
                         help='Use hh:mm:ss times instead of just hh:mm')
+    parser.add_argument('-v', action='version',
+                    version='%(prog)s v{version}'.format(version=__version__))
 
     # Parse command line arguments
     args = parser.parse_args()
