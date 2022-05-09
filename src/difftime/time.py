@@ -32,9 +32,6 @@ def get_time(time: str) -> int:
     return int(matchgroups)
 
 def convert_24_hour(time: str, with_seconds: bool):
-    # pattern = re.compile(meridiem_regex)
-    # matches = pattern.match(time)
-    # matchgroups = pattern.match(time).group(0)
     logging.info(f'Converting Time {time} to 24 Hour')
 
     matches     = re.search(meridiem_regex, time)
@@ -42,7 +39,6 @@ def convert_24_hour(time: str, with_seconds: bool):
     logging.info(f'Match Groups: {matchgroups}')
 
     result = ''
-    # match matches.group(0):
     match matchgroups:
         case 'am':
             # if the time is already in am, return the time
@@ -57,8 +53,6 @@ def convert_24_hour(time: str, with_seconds: bool):
                 hours = int(hh) + 12
                 result = f'{hours}:{mm}:{ss}'
             else:
-                # (hh, mm) = time.split(':')
-                # print(time.split(':'))
                 (hh, mm) = time.split(':')
                 mm = get_time(mm)
                 hours = int(hh) + 12
@@ -68,9 +62,7 @@ def convert_24_hour(time: str, with_seconds: bool):
 
 def to_time(timestr: str, with_seconds: bool) -> Time:
     # Initial variables
-    hh = 0
-    mm = 0
-    ss = 0
+    (hh,mm,ss) = (0, 0, 0)
 
     # Optional seconds parameter
     if with_seconds:
@@ -79,9 +71,7 @@ def to_time(timestr: str, with_seconds: bool) -> Time:
         (hh, mm) = timestr.split(':')
 
     # Convert to Time object
-    hours = int(hh)
-    minutes = int(mm)
-    seconds = int(ss)
+    (hours, minutes, seconds) = (int(hh), int(mm), int(ss))
 
     time = Time(hours, minutes, seconds)
     return time

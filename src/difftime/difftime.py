@@ -51,11 +51,6 @@ def main():
 
         intval = Interval(begTime, endTime)
         time_delta += time_to_seconds(intval.difftime())
-        # (hh,mm,ss) = intval.difftime()
-
-        # time_delta += hh * 3600
-        # time_delta += mm * 60
-        # time_delta += ss
 
     (hh,mm,ss) = seconds_to_time(time_delta)
     if with_seconds:
