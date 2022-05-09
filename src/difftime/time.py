@@ -93,3 +93,10 @@ def seconds_to_time(secs: int) -> tuple:
     ss = (secs % 60)
     return (hh, mm, ss)
 
+def time_to_seconds(time: tuple) -> int:
+    (hh,mm,ss) = time
+    time_delta = 0
+    time_delta += hh * 3600
+    time_delta += mm * 60
+    time_delta += ss
+    return time_delta

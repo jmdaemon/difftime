@@ -3,7 +3,8 @@ from difftime.time import(
     Interval,
     convert_24_hour,
     to_time,
-    seconds_to_time
+    seconds_to_time,
+    time_to_seconds
 )
 
 # Standard Library
@@ -49,18 +50,15 @@ def main():
         endTime = to_time(end24h, with_seconds)
 
         intval = Interval(begTime, endTime)
-        (hh,mm,ss) = intval.difftime()
-        time_delta += hh * 3600
-        time_delta += mm * 60
-        time_delta += ss
+        time_delta += time_to_seconds(intval.difftime())
+        # (hh,mm,ss) = intval.difftime()
+
+        # time_delta += hh * 3600
+        # time_delta += mm * 60
+        # time_delta += ss
 
     (hh,mm,ss) = seconds_to_time(time_delta)
     if with_seconds:
-        # print(f'{hh} hours {mm} minutes {ss} seconds')
         print('%d hours %d minutes %d seconds' % (hh, mm, ss))
     else:
         print('%d hours %d minutes' % (hh, mm))
-        # print(f'{hh} hours {mm} minutes')
-
-    # for time in times:
-        # (beg, end) = time.split('-')
