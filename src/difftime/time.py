@@ -61,7 +61,7 @@ def convert_24_hour(time: str, with_seconds: bool):
 
 
 def to_time(timestr: str, with_seconds: bool) -> Time:
-    # Initial variables
+    ''' Convert a time string to a Time object '''
     (hh,mm,ss) = (0, 0, 0)
 
     # Optional seconds parameter
@@ -71,9 +71,7 @@ def to_time(timestr: str, with_seconds: bool) -> Time:
         (hh, mm) = timestr.split(':')
 
     # Convert to Time object
-    (hours, minutes, seconds) = (int(hh), int(mm), int(ss))
-
-    time = Time(hours, minutes, seconds)
+    time = Time(int(hh), int(mm), int(ss))
     return time
 
 def seconds_to_time(secs: int) -> tuple:
@@ -84,6 +82,7 @@ def seconds_to_time(secs: int) -> tuple:
     return (hh, mm, ss)
 
 def time_to_seconds(time: tuple) -> int:
+    ''' Convert a time into a duration of seconds '''
     (hh,mm,ss) = time
     time_delta = 0
     time_delta += hh * 3600
