@@ -28,7 +28,7 @@ def get_version(rel_path):
 
 setup(
     name='difftime',
-    version=get_version("src/sapply/__init__.py"),
+    version=get_version("src/difftime/__init__.py"),
     license='GPL-3.0',
     author='Joseph Diza',
     author_email='josephm.diza@gmail.com',
