@@ -57,13 +57,19 @@ def convert_24_hour(time: str, with_seconds: bool):
     logging.info(f'Converting Time {time} to 24 Hour')
 
     matches     = re.search(meridiem_regex, time)
-    matchgroups = matches.group()
+    # matchgroups = matches.group() if matches != None or matches != '' else ''
+    matchgroups = ''
+    if matches:
+        matchgroups = matches.group()
+    if matchgroups == None:
+        matchgroups = ''
     logging.info(f'Match Groups: {matchgroups}')
 
     result = ''
     match matchgroups:
         case 'am': result = convert_time(time, 'am', 0, with_seconds)
         case 'pm': result = convert_time(time, 'pm', 12, with_seconds)
+        case _: result = time
     return result
 
 
