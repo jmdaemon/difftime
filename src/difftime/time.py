@@ -46,8 +46,14 @@ def convert_time(time: str, meridem: str, offset: int, with_seconds: bool):
 
     # To convert twelve hour 
     hh += offset
+
+    # Format times likes 07:00 time and not 07:0
+    if (mm == 0):
+        mm = f'0{mm}'
     if with_seconds:
         ss = get_time(split[2])
+        if (ss == 0):
+            ss = f'0{ss}'
         result = f'{hh}:{mm}:{ss}'
     else:
         result = f'{hh}:{mm}'

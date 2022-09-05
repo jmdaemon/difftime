@@ -7,7 +7,7 @@ from difftime.time import (
 
 # 24 Hour
 def test_24hour_am():
-    expect = "07:00"
+    expect = "7:00"
     actual = convert_24_hour(expect, False)
     assert(actual == expect)
 
@@ -28,8 +28,8 @@ def test_24hour_midnight():
 
 # 12 Hour
 def test_12hour_am():
-    time = "07:00am"
-    expect = "07:00"
+    time = "7:00am"
+    expect = "7:00"
     actual = convert_24_hour(time, False)
     assert(actual == expect)
 
