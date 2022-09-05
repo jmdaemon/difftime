@@ -4,7 +4,8 @@ from difftime.time import(
     convert_24_hour,
     to_time,
     seconds_to_time,
-    time_to_seconds
+    time_to_seconds,
+    Time
 )
 from difftime import __version__
 
@@ -12,6 +13,11 @@ from difftime import __version__
 import os
 import argparse
 import logging
+
+def parse_time(time: str, with_seconds: bool) -> Time:
+    time_24hr = convert_24_hour(time, with_seconds)
+    result = to_time(time_24hr, with_seconds)
+    return result
 
 def main():
     # Set up logging
@@ -40,19 +46,11 @@ def main():
 
     for interval in intervals:
         # ('10:30pm-11:30pm', '9:30pm-10:00pm') -> (('10:30pm', '11:30pm'), ('9:30pm', 10:00pm))
-        beg, end = interval.split('-')
+        begtime, endtime = interval.split('-')
+        beg = parse_time(begtime, with_seconds)
+        end = parse_time(endtime, with_seconds)
 
-        # ('10:30pm', '11:30pm') -> ('22:30', '23:30')
-        beg24h = convert_24_hour(beg, with_seconds)
-        end24h = convert_24_hour(end, with_seconds)
-        logging.info(f'beg24h: {beg24h}')
-        logging.info(f'end24h: {end24h}')
-
-        # ('22:30', '23:30') -> (Time(22, 30, 00), Time(23,30,00))
-        begTime = to_time(beg24h, with_seconds)
-        endTime = to_time(end24h, with_seconds)
-
-        intval = Interval(begTime, endTime)
+        intval = Interval(beg, end)
         time_delta += time_to_seconds(intval.difftime())
 
     (hh,mm,ss) = seconds_to_time(time_delta)
