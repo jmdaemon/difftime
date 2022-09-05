@@ -42,7 +42,18 @@ def convert_24_hour(time: str, with_seconds: bool):
     match matchgroups:
         case 'am':
             # if the time is already in am, return the time
-            return time
+            logging.info(f'Time Split: {time.split(":")}')
+            if with_seconds:
+                (hh, mm, ss) = time.split(':')
+                mm = get_time(mm)
+                ss = get_time(ss)
+                hours = int(hh)
+                result = f'{hours}:{mm}:{ss}'
+            else:
+                (hh, mm) = time.split(':')
+                mm = get_time(mm)
+                hours = int(hh)
+                result = f'{hours}:{mm}'
         case 'pm':
             # if the time is in pm, convert the time
             logging.info(f'Time Split: {time.split(":")}')
