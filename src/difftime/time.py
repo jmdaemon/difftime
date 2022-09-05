@@ -31,6 +31,20 @@ def get_time(time: str) -> int:
     matchgroups = matches.group()
     return int(matchgroups)
 
+def convert_time(time: str, offset: int, with_seconds: bool):
+    result = ''
+    # if the time is already in am, return the time
+    split = time.split(':')
+    logging.info(f'Time Split: {split}')
+    hh = int(split[0])
+    mm = get_time(split[1])
+    if with_seconds:
+        ss = get_time(split[2])
+        result = f'{hh}:{mm}:{ss}'
+    else:
+        result = f'{hh}:{mm}'
+    return result
+
 def convert_24_hour(time: str, with_seconds: bool):
     logging.info(f'Converting Time {time} to 24 Hour')
 
@@ -40,34 +54,8 @@ def convert_24_hour(time: str, with_seconds: bool):
 
     result = ''
     match matchgroups:
-        case 'am':
-            # if the time is already in am, return the time
-            logging.info(f'Time Split: {time.split(":")}')
-            if with_seconds:
-                (hh, mm, ss) = time.split(':')
-                mm = get_time(mm)
-                ss = get_time(ss)
-                hours = int(hh)
-                result = f'{hours}:{mm}:{ss}'
-            else:
-                (hh, mm) = time.split(':')
-                mm = get_time(mm)
-                hours = int(hh)
-                result = f'{hours}:{mm}'
-        case 'pm':
-            # if the time is in pm, convert the time
-            logging.info(f'Time Split: {time.split(":")}')
-            if with_seconds:
-                (hh, mm, ss) = time.split(':')
-                mm = get_time(mm)
-                ss = get_time(ss)
-                hours = int(hh) + 12
-                result = f'{hours}:{mm}:{ss}'
-            else:
-                (hh, mm) = time.split(':')
-                mm = get_time(mm)
-                hours = int(hh) + 12
-                result = f'{hours}:{mm}'
+        case 'am': result = convert_time(time, 0, with_seconds)
+        case 'pm': result = convert_time(time, 12, with_seconds)
     return result
 
 
