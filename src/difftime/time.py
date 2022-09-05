@@ -31,13 +31,21 @@ def get_time(time: str) -> int:
     matchgroups = matches.group()
     return int(matchgroups)
 
-def convert_time(time: str, offset: int, with_seconds: bool):
+def convert_time(time: str, meridem: str, offset: int, with_seconds: bool):
     result = ''
     # if the time is already in am, return the time
     split = time.split(':')
     logging.info(f'Time Split: {split}')
     hh = int(split[0])
     mm = get_time(split[1])
+
+    # 12:00pm == 12:00 in 24 hour time
+    # 12:00am == 00:00 in 24 hour time
+    if (hh == 12 and meridem == 'pm'):
+        hh = 0
+
+    # To convert twelve hour 
+    hh += offset
     if with_seconds:
         ss = get_time(split[2])
         result = f'{hh}:{mm}:{ss}'
@@ -54,8 +62,8 @@ def convert_24_hour(time: str, with_seconds: bool):
 
     result = ''
     match matchgroups:
-        case 'am': result = convert_time(time, 0, with_seconds)
-        case 'pm': result = convert_time(time, 12, with_seconds)
+        case 'am': result = convert_time(time, 'am', 0, with_seconds)
+        case 'pm': result = convert_time(time, 'pm', 12, with_seconds)
     return result
 
 
