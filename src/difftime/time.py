@@ -1,5 +1,4 @@
 import re
-import logging
 
 def diff(upper, lower):
     ''' Return the absolute difference between two numbers '''
@@ -7,8 +6,8 @@ def diff(upper, lower):
 
 # Regex constants
 meridiem_regex = r'([ap]m)'
-num_regex = r'([\d]+)'
 
+# Data Structures
 class Time:
     def __init__(self, hh, mm, ss):
         self.hh = hh
@@ -26,20 +25,16 @@ class Interval:
         ss = diff(self.end.ss, self.beg.ss)
         return (hh, mm, ss)
 
-def get_time(time: str) -> int:
-    matches     = re.search(num_regex, time)
-    matchgroups = matches.group()
-    return int(matchgroups)
-
-def parse_time(time: str, with_seconds: bool):
-    split = time.split(':')
-    logging.info(f'Time Split: {split}')
+def split_time(time: str, meridem, with_seconds: bool):
+    ''' Split the time input into a list '''
+    split = time.split(meridem)[0].split(':')
     hh = int(split[0])
-    mm = get_time(split[1])
-    ss = 0 if not with_seconds else get_time(split[2])
+    mm = int(split[1])
+    ss = 0 if not with_seconds else int(split[2])
     return (hh, mm, ss)
 
 def format_time(hh: str, mm: str, ss: str, with_seconds: bool):
+    ''' Format the list of times into a string '''
     # 07:0 -> 07:00
     if (int(mm) == 0):
         mm = f'0{mm}'
@@ -54,6 +49,7 @@ def format_time(hh: str, mm: str, ss: str, with_seconds: bool):
     return result
 
 def to_24_hour(hours: int, meridem: str):
+    ''' Converts hours from 12 hr to 24 hour time format '''
     hh = hours
     # Convert the time
     # 12:00am == 0:00
@@ -67,31 +63,20 @@ def to_24_hour(hours: int, meridem: str):
     return hh
 
 def from_12_to_24_hour(time: str, meridem: str, with_seconds: bool):
-    (hh, mm, ss) = parse_time(time, with_seconds)
+    ''' Convert a 12 hour time to 24 hour time '''
+    (hh, mm, ss) = split_time(time, meridem, with_seconds)
     hh = to_24_hour(hh, meridem)
     return format_time(str(hh), str(mm), str(ss), with_seconds)
 
 def convert_24_hour(time: str, with_seconds: bool):
-
-    logging.info(f'Converting Time {time} to 24 Hour')
-
-    matches     = re.search(meridiem_regex, time)
-    # matchgroups = matches.group() if matches != None or matches != '' else ''
-    matchgroups = ''
-    if matches:
-        matchgroups = matches.group()
-    if matchgroups == None:
-        matchgroups = ''
-    logging.info(f'Match Groups: {matchgroups}')
+    matches = re.search(meridiem_regex, time)
+    matchgroups = '' if matches == None else matches.group()
 
     result = ''
     match matchgroups:
-        # case 'am': result = convert_time(time, 'am', 0, with_seconds)
-        # case 'pm': result = convert_time(time, 'pm', 12, with_seconds)
-        case 'am': result = from_12_to_24_hour(time, 'am', with_seconds)
-        case 'pm': result = from_12_to_24_hour(time, 'pm', with_seconds)
-
-        case _: result = time
+        case 'am'   : result = from_12_to_24_hour(time, 'am', with_seconds)
+        case 'pm'   : result = from_12_to_24_hour(time, 'pm', with_seconds)
+        case _      : result = time
     return result
 
 def to_time(timestr: str, with_seconds: bool) -> Time:
