@@ -31,7 +31,52 @@ def get_time(time: str) -> int:
     matchgroups = matches.group()
     return int(matchgroups)
 
+def parse_time(time: str, with_seconds: bool):
+    split = time.split(':')
+    logging.info(f'Time Split: {split}')
+    hh = int(split[0])
+    mm = get_time(split[1])
+    ss = 0 if not with_seconds else get_time(split[2])
+    return (hh, mm, ss)
+
+def format_time(hh: str, mm: str, ss: str, with_seconds: bool):
+    result: str
+    if with_seconds:
+        if (ss == 0):
+            ss = f'0{ss}'
+        result = f'{hh}:{mm}:{ss}'
+    else:
+        result = f'{hh}:{mm}'
+    return result
+
+def from_12_to_24_hour(time: str, meridem: str, offset: int, with_seconds: bool):
+    (hh, mm, ss) = parse_time(time, with_seconds)
+
+    # 12:00am == 0:00
+    if (hh == 12 and meridem == 'am'):
+        hh -= 12
+    # 11:59pm == 23:59
+    elif (hh == 12 and meridem == 'pm'):
+        pass
+        # hh += 12
+    elif (meridem == 'pm'):
+        hh += 12
+
+    # 07:0 -> 07:00
+    if (mm == 0):
+        mm = f'0{mm}'
+
+    return format_time(str(hh), str(mm), str(ss), with_seconds)
+
+    # return result
+    # return (hh,mm,ss)
+
+
 def convert_time(time: str, meridem: str, offset: int, with_seconds: bool):
+    # Timeline:
+    # 12:00 am  -> 12:00 pm -> 12:00am
+    # 00:00     -> 12:00    -> 24:00 (0:00) next day
+
     result = ''
     # if the time is already in am, return the time
     split = time.split(':')
@@ -41,11 +86,19 @@ def convert_time(time: str, meridem: str, offset: int, with_seconds: bool):
 
     # 12:00pm == 12:00 in 24 hour time
     # 12:00am == 00:00 in 24 hour time
-    if (hh == 12 and meridem == 'pm'):
+    if (hh == 12 and meridem == 'am'):
         hh = 0
 
+    # if (hh == 12 and meridem == 'pm'):
+        # hh = 24
+
+    # if (hh == 12 and meridem == 'pm'):
+        # hh += offset
+
     # To convert twelve hour 
-    hh += offset
+    # if (hh != 12 and meridem != 'pm'):
+    if (hh != 12):
+        hh += offset
 
     # Format times likes 07:00 time and not 07:0
     if (mm == 0):
@@ -60,6 +113,7 @@ def convert_time(time: str, meridem: str, offset: int, with_seconds: bool):
     return result
 
 def convert_24_hour(time: str, with_seconds: bool):
+
     logging.info(f'Converting Time {time} to 24 Hour')
 
     matches     = re.search(meridiem_regex, time)
@@ -73,8 +127,11 @@ def convert_24_hour(time: str, with_seconds: bool):
 
     result = ''
     match matchgroups:
-        case 'am': result = convert_time(time, 'am', 0, with_seconds)
-        case 'pm': result = convert_time(time, 'pm', 12, with_seconds)
+        # case 'am': result = convert_time(time, 'am', 0, with_seconds)
+        # case 'pm': result = convert_time(time, 'pm', 12, with_seconds)
+        case 'am': result = from_12_to_24_hour(time, 'am', 0, with_seconds)
+        case 'pm': result = from_12_to_24_hour(time, 'pm', 12, with_seconds)
+
         case _: result = time
     return result
 

@@ -47,6 +47,6 @@ def test_12hour_noon():
 
 def test_12hour_midnight():
     time = "12:00am"
-    expect = "00:00"
+    expect = "0:00"
     actual = convert_24_hour(time, False)
     assert(actual == expect)
