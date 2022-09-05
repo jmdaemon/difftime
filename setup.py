@@ -47,7 +47,6 @@ setup(
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
     python_requires='>=3.10',
-    py_modules=['difftime'],
     install_requires=[],
     entry_points={
         'console_scripts': [
